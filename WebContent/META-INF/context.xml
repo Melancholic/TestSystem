@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context>
+
+	<Resource name="jdbc/tsystemdb" auth="Container" type="javax.sql.DataSource"
+	
+	    factory="org.apache.tomcat.jdbc.pool.DataSourceFactory"
+
+		username="tsystem_user" password="mypassword" driverClassName="org.mariadb.jdbc.Driver"
+
+		url="jdbc:mariadb://localhost:3306/tsystemdb" maxActive="15" maxIdle="3" 
+		
+		removeAbandoned="true" removeAbandonedTimeout="30" logAbandoned="true" />
+
+</Context>
