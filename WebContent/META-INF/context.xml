@@ -5,7 +5,7 @@
 	
 	    factory="org.apache.tomcat.jdbc.pool.DataSourceFactory"
 
-		username="" password="" driverClassName="org.mariadb.jdbc.Driver"
+		username="a" password="a" driverClassName="org.mariadb.jdbc.Driver"
 
 		url="jdbc:mariadb://elfapp.info:3306/tsystemdb" maxActive="15" maxIdle="3" 
 		
