@@ -9,9 +9,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-/**
- *some text
- **/
 
 public class QuestionsDAO {
     private DataSource dataSource;
