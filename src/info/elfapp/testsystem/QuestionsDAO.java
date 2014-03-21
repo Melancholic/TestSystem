@@ -29,14 +29,15 @@ public class QuestionsDAO {
 		String r = null;
 
         try {
+            String  QUESTION = "Question";
 			Connection connection = dataSource.getConnection();
-	        String query = "SELECT Question FROM Questions WHERE ID = ?";
+	        String query = "SELECT "+QUESTION +" FROM Questions WHERE ID = ?";
 	        PreparedStatement prepStmt = connection.prepareStatement(query);
 	        prepStmt.setInt(1, questionID);
 	        ResultSet resultSet = prepStmt.executeQuery();
             if (resultSet.next()) {
             	r = new String();
-            	r = resultSet.getString("Question");      
+            	r = resultSet.getString(QUESTION);
             }
             connection.close();
 		} catch (SQLException e) {
