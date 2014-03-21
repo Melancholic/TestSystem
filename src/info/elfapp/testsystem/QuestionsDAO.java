@@ -11,8 +11,8 @@ import java.sql.SQLException;
 
 
 public class QuestionsDAO {
-
     private DataSource dataSource;
+    private final String QUESTION = "Question";
 
     public QuestionsDAO() {
         try {
@@ -28,7 +28,6 @@ public class QuestionsDAO {
         String r = null;
 
         try {
-            String QUESTION = "Question";
             Connection connection = dataSource.getConnection();
             String query = "SELECT " + QUESTION + " FROM Questions WHERE ID = ?";
             PreparedStatement prepStmt = connection.prepareStatement(query);
