@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import static info.elfapp.testsystem.Consts.СolumnsName.Questions.*;
 
 
 public class QuestionsDAO {
@@ -45,6 +46,16 @@ public class QuestionsDAO {
         }
 
         return r;
+    }
+
+    public void addQuestions(String quest, String answ) throws SQLException {
+        Connection connection = dataSource.getConnection();
+        String query = "INSERT INTO " + Consts.Tables.QUESTIONS + "(" +
+                QUEST + "," +
+                ANSWER + ") VALUES (\'" +
+                quest + "\', \'"+ answ+ "\');";
+        connection.createStatement().execute(query);
+        connection.close();
     }
 
 }
