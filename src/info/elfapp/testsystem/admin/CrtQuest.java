@@ -50,7 +50,7 @@ public class CrtQuest extends HttpServlet {
         try {
             tSstm.CreateQuestions(jsonObj);
         } catch (SQLException e) {
-            RequestDispatcher rd = getServletContext().getRequestDispatcher("CreateQuestions.html");
+            RequestDispatcher rd = getServletContext().getRequestDispatcher("CreateQuestions.jsp");
             PrintWriter out = response.getWriter();
             out.println("<font color=red>Error #" + e.getErrorCode() + ": " + e.getMessage() + "</font>");
             rd.include(request, response);

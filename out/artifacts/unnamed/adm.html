@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Admin</title>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <script>
+        function updateData() {
+            getQsts();
+            getQGroup();
+            getTests();
+            getUsers();
+            getUGroup();
+        }
+    </script>
+    <script src="qsts_adm.js"></script>
+    <script src="tsts_adm.js"></script>
+    <script src="usr_adm.js"></script>
+</head>
+
+<body>
+<div class="container">
+<div class="row">
+<br>
+
+<div class="col-md-2">
+    <ul class="nav nav-pills nav-stacked">
+        <li class="active"><a href="#questions" data-toggle="tab">Вопросы</a></li>
+        <li><a href="#tests" data-toggle="tab">Тесты</a></li>
+        <li><a href="#users" data-toggle="tab">Пользователи</a></li>
+    </ul>
+</div>
+<div class="col-md-10">
+<div class="tab-content">
+<!-- Questions -->
+<div class="tab-pane active" id="questions">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#add_question" data-toggle="tab">Добавить вопрос</a></li>
+        <li><a href="#questions_list" data-toggle="tab">Список вопросов</a></li>
+        <li><a href="#add_qgrp" data-toggle="tab">Добавить группу</a></li>
+        <li><a href="#qgrps_lst" data-toggle="tab">Список групп</a></li>
+    </ul>
+    <div class="tab-content">
+        <!-- Add question -->
+        <form class="tab-pane active" id="add_question">
+            <br>
+            Группа вопросов:
+            <select class="form-control" id="qst_grp">
+            </select>
+            <br>
+            Текст вопроса:
+            <textarea class="form-control" rows="3" id="qst_txt"></textarea>
+            <br>
+            Ответ:
+            <textarea class="form-control" rows="3" id="qst_answ"></textarea>
+            <br>
+            <button onclick="this.disabled='disabled'" class="btn btn-default">Добавить</button>
+            <input type=hidden name="qst_crt_json"/>
+        </form>
+        <!-- Questions list -->
+        <div class="tab-pane" id="questions_list">
+            <form class="tab-pane active" id="upd_qusts_lst" action="CrtQuestSrvlt">
+                <br>
+                Группа вопросов:
+                <select class="form-control" id="qgrp_select">
+                    <option>All questions</option>
+
+                </select>
+                <br>
+                <table class="table table-bordered" id="all_quests">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Вопрос</th>
+                        <th>Ответ</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+                <input type=hidden name="qsts_upd_json"/>
+            </form>
+        </div>
+        <!-- Add group -->
+        <div class="tab-pane" id="add_qgrp">
+            <form class="tab-pane active" id="add_new_qgrpt" action="CrtQgrpSrvlt" role="form">
+                <br>
+
+                <div class="required-field-block">
+                    <input type="text" placeholder="Название группы" class="form-control"
+                           id="qgrp_name">
+                </div>
+
+                <br>
+                <textarea class="form-control" placeholder=" Описание группы" rows="3"
+                          id="qgrp_descript"></textarea>
+                <br>
+                <button onclick="this.disabled='disabled'" class="btn btn-default">Добавить</button>
+            </form>
+        </div>
+        <!-- QGroups list -->
+        <div class="tab-pane" id="qgrps_lst">
+            <form class="tab-pane active" id="upd_qgrps_lst" action="CrtQuestSrvlt">
+                <br>
+                Доступные группы:
+                <br>
+                <table class="table table-bordered" id="all_qgrps">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Группа</th>
+                        <th>Число вопросов</th>
+
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+                <input type=hidden name="qsts_upd_json"/>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!-- Tests -->
+<div class="tab-pane" id="tests">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#add_new_tst" data-toggle="tab">Добавить тест</a></li>
+        <li><a href="#tsts_list" data-toggle="tab">Список тестов</a></li>
+
+    </ul>
+    <div class="tab-content">
+        <!-- Add Test -->
+        <form class="tab-pane active" id="add_new_tst" action="CrtQgrpSrvlt" role="form">
+            <br>
+
+            <div class="required-field-block">
+                <input type="text" placeholder="Название теста" class="form-control"
+                       id="tst_name">
+            </div>
+
+            <br>
+            <textarea class="form-control" placeholder=" Описание Теста" rows="3"
+                      id="tst_descript"></textarea>
+            <br>
+            <table class="table table-bordered">
+                <tr>
+                    <td>Длительность:</td>
+                    <th>
+                        <input type="time" id="tsts_dur" value="00:10">
+                    </th>
+                </tr>
+
+            </table>
+            <br>
+            Доступные группы вопросов:
+            <select class="form-control" id="tstscrt_qgrp_select" data-target="#basicModal">
+            </select>
+            <br>
+            <table class="table table-bordered" id="qgrps_4_crt_tst">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Группа</th>
+                    <th>Число вопросов</th>
+                    <th>Приоритет группы</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+            <br>
+
+
+            <button onclick="this.disabled='disabled'" class="btn btn-default">Добавить</button>
+        </form>
+        <!-- Tests list -->
+        <div class="tab-pane" id="tsts_list">
+            <form class="tab-pane active" id="upd_tsts_lst" action="CrtQuestSrvlt">
+                <br>
+                Доступные тесты:
+                <br>
+                <table class="table table-bordered" id="all_tsts">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Тест</th>
+                        <th>Число вопросов</th>
+                        <th>Длительность</th>
+                        <th>Активных экземпляров</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </form>
+        </div>
+
+    </div>
+</div>
+<!-- Users -->
+<div class="tab-pane" id="users">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#add_user" data-toggle="tab">Добавить пользователя</a></li>
+        <li><a href="#users_list" data-toggle="tab">Список пользователей</a></li>
+        <li><a href="#add_ugroup" data-toggle="tab">Добавить группу</a></li>
+        <li><a href="#ugrps_lst" data-toggle="tab">Список групп</a></li>
+    </ul>
+    <div class="tab-content">
+        <!-- Add user -->
+        <form class="tab-pane active" id="add_user">
+            <br>
+            Группа пользователей:
+            <select class="form-control" id="u_grp">
+            </select>
+            <br>
+            Имя:
+            <textarea class="form-control" rows="3" id="uname"></textarea>
+            <br>
+            Пароль:
+            <input class="form-control" name="pwd" type="password" id="upswd1" value="">
+            Введите пароль еще раз:
+            <input class="form-control" name="pwd" type="password" id="upswd2" value="">
+            <br>
+
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" id="isAdmin"> Сделать пользователя администратором
+                </label>
+            </div>
+            <br>
+            <button onclick="this.disabled='disabled'" class="btn btn-default">Добавить</button>
+            <input type=hidden name="qst_crt_json"/>
+        </form>
+        <!-- Users list -->
+        <div class="tab-pane" id="users_list">
+            <form class="tab-pane active" id="upd_users_lst">
+                <br>
+                Группа вопросов:
+                <select class="form-control" id="ugrp_select">
+                    <option>All users</option>
+
+                </select>
+                <br>
+                <table class="table table-bordered" id="all_users">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Имя</th>
+                        <th>Группа</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+                <input type=hidden name="qsts_upd_json"/>
+            </form>
+        </div>
+        <!-- Add ugroup -->
+        <div class="tab-pane" id="add_ugroup">
+            <form class="tab-pane active" id="add_new_ugrpt" action="" role="form">
+                <br>
+
+                <div class="required-field-block">
+                    <input type="text" placeholder="Название группы" class="form-control"
+                           id="ugrp_name">
+                </div>
+
+                <br>
+                <textarea class="form-control" placeholder=" Описание группы" rows="3"
+                          id="ugrp_descript"></textarea>
+                <br>
+                <button onclick="this.disabled='disabled'" class="btn btn-default" id="crt_new_ugrp">Добавить</button>
+            </form>
+        </div>
+        <!-- UGroups list -->
+        <div class="tab-pane" id="ugrps_lst">
+            <form class="tab-pane active" id="upd_ugrps_lst" action="CrtQuestSrvlt">
+                <br>
+                Доступные группы:
+                <br>
+                <table class="table table-bordered" id="all_ugrps">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Группа</th>
+                        <th>Число пользователей</th>
+
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="qgrp_prop" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&amp;times;</button>
+                <h4 class="modal-title" id="myModalLabel">Параметры группы вопросов</h4>
+            </div>
+            <div class="modal-body">
+
+
+                <form class="tab-pane active" id="qgrp_prop_conteiner" role="form">
+                    <br>
+
+                    <div class="required-field-block">
+                        <input type="text" placeholder="Число вопросов из группы" class="form-control"
+                               id="qgrp_crttst_size">
+                    </div>
+
+                    <br>
+                    <textarea class="form-control" placeholder="Вес группы для текущего теста" rows="3"
+                              id="qgrp_crttst_num"></textarea>
+                    <br>
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                <button type="button" class="btn btn-primary" id="qgrp_prop_ok">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

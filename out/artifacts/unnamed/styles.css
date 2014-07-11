@@ -1,0 +1,21 @@
+.table_my1 {
+    border-width: 0px;
+    border-spacing: 25px;
+    padding: 0px;
+    background-color: #FFFFFF;
+}
+  .table_my2 {
+    border-width: 0px;
+    border-spacing: 20px;
+    padding: 0px;
+    background-color: #FFFFFF;
+}
+
+.form-signin {
+    max-width: 330px;
+    padding: 15px;
+    margin: 0 auto;
+}
+.vcenter {
+    display: inline-block;
+}

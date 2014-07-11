@@ -1,8 +1,14 @@
 package info.elfapp.testsystem;
 
-import info.elfapp.testsystem.UserDAO.UserBean;
+//import info.elfapp.testsystem.UserDAO.UserBean;
+
+
+import info.elfapp.testsystem.DAO.UsersDAO;
+import info.elfapp.testsystem.Maps.Users;
+import org.hibernate.Hibernate;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -21,7 +27,7 @@ import javax.servlet.http.HttpSession;
 @WebFilter("/AuthenticationFilter")
 public class AuthenticationFilter implements Filter {
    
-	private UserDAO dao;
+	//private UserDAO dao;
 
 	/**
 	 * @see Filter#destroy()
@@ -38,8 +44,8 @@ public class AuthenticationFilter implements Filter {
         HttpServletResponse res = (HttpServletResponse) response;
          
         String uri = req.getRequestURI();
-
-        if(uri.endsWith("html") || uri.endsWith("LoginServlet")){
+        System.err.println("REQUEST: "+uri);
+        if((uri.endsWith("html") || uri.endsWith("LoginServlet"))&&!uri.endsWith("adm.html") ){
         	chain.doFilter(request, response);
         	return;
         }
@@ -50,25 +56,41 @@ public class AuthenticationFilter implements Filter {
         	res.sendRedirect("login.html");
         	return;
         }
-        Integer userId = (Integer) session.getAttribute("userId");
+        Long userId = (Long) session.getAttribute("userId");
         if (userId==null){
     		res.sendRedirect("login.html");
     		return;
     	}
-        UserBean user = dao.getUserByID(userId);
+        Users user=null;
+        try {
+             user = (new UsersDAO()).getObjById(userId);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            res.sendRedirect("login.html");
+            return;
+        }
+        if(user!=null && !user.isAdmin()){
+            if(uri.endsWith("adm.html")){
+               res.sendRedirect("user.html");
+                return;
+            }
+        }
+        /*UserBean user = dao.getUserByID(userId);  */
+        Hibernate.initialize(user.getSession());
+        System.err.println("SESSION: " + user.getSession());
         if(user!=null && session.getId().equals(user.getSession())){
         	chain.doFilter(request, response);
         } else {
         	res.sendRedirect("login.html");
-        }
-        
+        }  //*/
+
 	}
 
 	/**
 	 * @see Filter#init(FilterConfig)
 	 */
 	public void init(FilterConfig fConfig) throws ServletException {
-			dao = new UserDAO();
+			//dao = new UserDAO();
 	}
 
 }

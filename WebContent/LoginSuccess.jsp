@@ -9,7 +9,7 @@
 <body>
 <%
     //allow access only if session exists
-    int userId = (Integer) session.getAttribute("userId");
+    long userId = (Long) session.getAttribute("userId");
     String sessionID = session.getId();
 
 %>
@@ -20,7 +20,9 @@ UserId=<%=userId%>
 <br>
 <a href="CheckoutPage.jsp">Checkout Page</a>
 <a href="MyTest.jsp">MyTest</a>
-<a href="CreateQuestions.html">New Questions</a>
+<a href="CreateQuestions.jsp">New Questions</a>
+
+
 
 <form action="LogoutServlet" method="post">
     <input type="submit" value="Logout">

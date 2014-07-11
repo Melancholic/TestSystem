@@ -1,7 +1,13 @@
 package info.elfapp.testsystem;
 
+import info.elfapp.testsystem.DAO.DAO;
+import info.elfapp.testsystem.Maps.Users;
+import info.elfapp.testsystem.Maps.UsersQuests;
+
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -30,11 +36,22 @@ public class GetQuestions extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		Integer userID = (Integer) session.getAttribute("userId");
+		Long userID = (Long) session.getAttribute("userId");
 		response.setContentType("application/json; charset=UTF-8");
 		PrintWriter out = response.getWriter();
-		System.out.println(tsystem.getUserQuestions(userID));
-		out.write(tsystem.getUserQuestions(userID));
+
+        Users usr;
+        try {
+            usr = DAO.getInstance().getUsrsDAO().getObjById(Long.valueOf(userID));
+        for(UsersQuests uq: (ArrayList<UsersQuests>)DAO.getInstance().getUQstDAO().getObjByUser(usr)){
+            System.out.println(uq.getQuestion().getQuestId());
+            out.write(String.valueOf(uq.getQuestion().getQuestId()));
+        }
+        //System.out.println(tsystem.getUserQuestions(userID));
+		//out.write(tsystem.getUserQuestions(userID));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 	}
 
 	/**
